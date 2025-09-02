@@ -1,0 +1,27 @@
+name: Discourse Branch Updated
+
+on:
+  schedule:
+    - cron: '34 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [tests-passed, stable]
+    steps:
+    - uses: actions/cache@v4
+      with:
+        path: last-revision
+    - env:
+        branch: ${{ matrix.branch }}
+      run: |
+        git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
+        NEW_REV=$(git -C disc rev-parse @)
+        OLD_REV=$(cat last-revision || true)
+        if [ "$NEW_REV" != "$OLD_REV" ]; then
+          echo "Branch ${branch} revision changed: $NEW_REV"
+          echo "$NEW_REV" > last-revision
+        fi
