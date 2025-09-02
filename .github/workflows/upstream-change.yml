@@ -1,12 +1,15 @@
 name: Discourse Branch Updated
 
 on:
-  schedule:
-    - cron: '34 7 * * *'
+  #schedule:
+  #  - cron: '34 7 * * *'
   workflow_dispatch:
 
 jobs:
   check-updates:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    outputs:
+      revchanged: ${{ steps.revcheck.outputs.revchanged }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -15,8 +18,9 @@ jobs:
     - uses: actions/cache@v4
       with:
         path: last-revision
-        key: ${{ matrix.branch }}
-    - env:
+        key: uschange-${{ matrix.branch }}
+    - id: revcheck
+      env:
         branch: ${{ matrix.branch }}
       run: |
         git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
@@ -25,4 +29,5 @@ jobs:
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "Branch ${branch} revision changed: $NEW_REV"
           echo "$NEW_REV" > last-revision
+          echo "revchanged=true" >> "$GITHUB_OUTPUT"
         fi
