@@ -8,12 +8,16 @@ on:
 jobs:
   check-updates:
     if: ${{ github.event_name == 'workflow_dispatch' }}
-    outputs:
-      revchanged: ${{ steps.revcheck.outputs.revchanged }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         branch: [tests-passed, stable]
+        workflow: [other-workflow]
+        include:
+          - branch: test-passed
+            workflow: other-workflow
+          - branch: stable
+            workflow: other-workflow
     steps:
     - uses: actions/cache@v4
       with:
@@ -22,6 +26,7 @@ jobs:
     - id: revcheck
       env:
         branch: ${{ matrix.branch }}
+        workflow: ${{ matrix.workflow }}
       run: |
         git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
         NEW_REV=$(git -C disc rev-parse @)
@@ -29,5 +34,10 @@ jobs:
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "Branch ${branch} revision changed: $NEW_REV"
           echo "$NEW_REV" > last-revision
-          echo "revchanged=true" >> "$GITHUB_OUTPUT"
+          curl --fail-with-body -sSL \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/dispatches" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H 'Accept: application/vnd.github.v3+json' \
+            -H 'Content-Type: application/json' \
+            --data "{}"
         fi
