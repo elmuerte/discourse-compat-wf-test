@@ -1,4 +1,4 @@
-name: Discourse Branch Updated
+name: Discourse Branch Update Check
 
 on:
   #schedule:
@@ -30,7 +30,7 @@ jobs:
         NEW_REV=$(git -C disc rev-parse @)
         OLD_REV=$(cat last-revision || true)
         if [ "$NEW_REV" != "$OLD_REV" ]; then
-          echo "Upstream branch ${branch} revision changed: $NEW_REV"
+          echo "Discourse branch ${branch} revision changed: $NEW_REV"
           echo "$NEW_REV" > last-revision
           echo "Triggering workflow: ${workflow}"
           gh api \
@@ -40,5 +40,5 @@ jobs:
             /repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/dispatches \
             -f "ref=${GITHUB_REF_NAME}"
         else
-          echo "No changes in upstream branch: ${branch}"
+          echo "No changes in Discourse branch: ${branch}"
         fi
