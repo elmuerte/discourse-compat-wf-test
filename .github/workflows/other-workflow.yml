@@ -1,5 +1,4 @@
-name: Discourse Branch Updated
-
+name: Other Workflow
 on:
   workflow_dispatch:
 
