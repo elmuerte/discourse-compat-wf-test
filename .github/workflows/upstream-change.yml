@@ -25,6 +25,7 @@ jobs:
       env:
         branch: ${{ matrix.branch }}
         workflow: ${{ matrix.workflow }}
+        GH_TOKEN: ${{ github.token }}
       run: |
         git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
         NEW_REV=$(git -C disc rev-parse @)
