@@ -55,5 +55,5 @@ jobs:
             /repos/${GITHUB_REPOSITORY}/actions/workflows/${workflow}/dispatches \
             -f "ref=${GITHUB_REF_NAME}"
         else
-          echo "No changes in Discourse branch: ${branch}"
+          echo "No changes in Discourse branch: ${branch}" >> $GITHUB_STEP_SUMMARY
         fi
