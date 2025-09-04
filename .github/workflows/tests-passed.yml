@@ -1,0 +1,10 @@
+name: Discourse tests-passed
+on:
+  workflow_dispatch:
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo "This would test the plugin/theme against the tests-passed branch"
