@@ -27,7 +27,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: last-revision
-        key: uscheck-${{branch}}-${{ hashFiles('last-revision') }}
+        key: uscheck-${{ matrix.branch }}-${{ hashFiles('last-revision') }}
     - id: trigger-wf
       if: steps.cache.outputs.cache-hit != 'true'
       env:
