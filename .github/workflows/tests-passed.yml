@@ -1,3 +1,4 @@
+name: Discourse tests-passed
 on:
   #push:
   #  branches:
