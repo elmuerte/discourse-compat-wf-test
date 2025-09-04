@@ -17,23 +17,25 @@ jobs:
           - branch: stable
             workflow: stable.yml
     steps:
-    - id: revcheck
+    - id: retrieve-lastrev
       env:
         branch: ${{ matrix.branch }}
       run: |
         git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
         git -C disc rev-parse @ > last-revision
-    - uses: actions/cache@v4
+    - id: cache
+      uses: actions/cache@v4
       with:
         path: last-revision
-        key: uscheck-${branch}-${{ hashFiles('last-revision') }}
-    - if: steps.cache.outputs.cache-hit != 'true'
+        key: uscheck-${{branch}}-${{ hashFiles('last-revision') }}
+    - id: trigger-wf
+      if: steps.cache.outputs.cache-hit != 'true'
       env:
         branch: ${{ matrix.branch }}
         workflow: ${{ matrix.workflow }}
         GH_TOKEN: ${{ github.token }}
       run: |
-        echo "Discourse branch ${branch} revision changed: $(cat last-revision)"
+        echo "Discourse branch ${branch} revision changed latest ref: $(cat last-revision)"
         echo "Triggering workflow: ${workflow}"
         gh api \
           --method POST \
