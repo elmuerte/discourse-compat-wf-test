@@ -18,11 +18,11 @@ jobs:
             workflow: stable.yml
     steps:
     - uses: actions/download-artifact@v5
+      continue-on-error: true # ignore missing artifact
       with:
         name: uschange-${{ matrix.branch }}
         path: last-revision
     - id: revcheck
-      if: always() # ignore missing artifact
       env:
         branch: ${{ matrix.branch }}
         workflow: ${{ matrix.workflow }}
