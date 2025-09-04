@@ -22,6 +22,7 @@ jobs:
         name: uschange-${{ matrix.branch }}
         path: last-revision
     - id: revcheck
+      if: always() # ignore missing artifact
       env:
         branch: ${{ matrix.branch }}
         workflow: ${{ matrix.workflow }}
