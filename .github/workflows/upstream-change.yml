@@ -23,7 +23,7 @@ jobs:
       run: |
         git clone --bare --filter=blob:none --depth=1 --single-branch --branch=${branch} https://github.com/discourse/discourse disc
         git -C disc rev-parse @ > last-revision
-        NEW_REV=$(cat last-revision)
+        cp last-revision current-revision
     - id: cache
       uses: actions/cache@v4
       with:
@@ -38,6 +38,7 @@ jobs:
         cache_hit: ${{ steps.cache.outputs.cache-hit }}
         GH_TOKEN: ${{ github.token }}
       run: |
+        NEW_REV=$(cat current-revision)
         [ "${cache_hit}" = "true" ] && OLD_REV=$(cat last-revision || true)
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "Discourse branch ${branch} revision changed: $NEW_REV; Previous: $OLD_REV"
