@@ -31,7 +31,8 @@ jobs:
         NEW_REV=$(git -C disc rev-parse @)
         OLD_REV=$(cat last-revision || true)
         if [ "$NEW_REV" != "$OLD_REV" ]; then
-          echo "Discourse branch ${branch} revision changed: $NEW_REV"
+          echo "Discourse branch ${branch} revision changed: $NEW_REV; Previous: $OLD_REV"
+          echo "Changes: https://github.com/discourse/discourse/compare/${OLD_REV}...${NEW_REV}"
           echo "$NEW_REV" > last-revision
           echo "Triggering workflow: ${workflow}"
           gh api \
