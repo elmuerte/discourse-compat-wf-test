@@ -39,6 +39,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         NEW_REV=$(cat current-revision)
+        echo "cache_hit = $cache_hit"
         [ "${cache_hit}" = "true" ] && OLD_REV=$(cat last-revision || true)
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "Discourse branch ${branch} revision changed: $NEW_REV; Previous: $OLD_REV"
