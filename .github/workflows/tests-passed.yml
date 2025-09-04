@@ -1,5 +1,8 @@
-name: Discourse tests-passed
 on:
+  #push:
+  #  branches:
+  #    - main
+  #pull_request:
   workflow_dispatch:
 
 jobs:
@@ -8,3 +11,7 @@ jobs:
     steps:
     - run: |
         echo "This would test the plugin/theme against the tests-passed branch"
+  #ci:
+  #  uses: discourse/.github/.github/workflows/discourse-plugin.yml@v1
+  #  with:
+  #    core_ref: tests-passed
