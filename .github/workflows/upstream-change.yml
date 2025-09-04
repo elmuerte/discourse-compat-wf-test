@@ -17,10 +17,10 @@ jobs:
           - branch: stable
             workflow: stable.yml
     steps:
-    - uses: actions/cache@v4
+    - uses: actions/download-artifact@v5
       with:
+        name: uschange-${{ matrix.branch }}
         path: last-revision
-        key: uschange-${{ matrix.branch }}
     - id: revcheck
       env:
         branch: ${{ matrix.branch }}
@@ -44,8 +44,8 @@ jobs:
         else
           echo "No changes in Discourse branch: ${branch}"
         fi
-    - uses: actions/cache/save@v4
-      if: always()
+    - uses: actions/upload-artifact@v4
       with:
+        name: uschange-${{ matrix.branch }}
         path: last-revision
-        key: uschange-${{ matrix.branch }}
+        overwrite: true
