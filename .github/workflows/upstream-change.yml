@@ -45,6 +45,7 @@ jobs:
           echo "No changes in Discourse branch: ${branch}"
         fi
     - uses: actions/cache/save@v4
+      if: always()
       with:
         path: last-revision
         key: uschange-${{ matrix.branch }}
