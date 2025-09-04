@@ -2,6 +2,7 @@ name: Discourse Branch Update Check
 
 on:
   #schedule:
+  #  # Runs once a day
   #  - cron: '34 7 * * *'
   workflow_dispatch:
 
@@ -12,9 +13,9 @@ jobs:
       matrix:
         include:
           - branch: tests-passed
-            workflow: other-workflow.yml
+            workflow: tests-passed.yml
           - branch: stable
-            workflow: other-workflow.yml
+            workflow: stable.yml
     steps:
     - uses: actions/cache@v4
       with:
