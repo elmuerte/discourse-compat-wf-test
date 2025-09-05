@@ -39,13 +39,10 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         NEW_REV=$(cat current-revision)
+        # cache_hit is empty on initial; false when an older cache was restored
         [ "${cache_hit}" = "false" ] && OLD_REV=$(cat last-revision || true)
-        echo $NEW_REV
-        ls -l current-revision
-        echo $OLD_REV
-        ls -l last-revision
-        echo ${cache_hit}
         if [ "$NEW_REV" != "$OLD_REV" ]; then
+          echo "Changes detected"
           echo "🆕 Discourse branch ${branch} revision changed" >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
           echo "Latest commit: https://github.com/discourse/discourse/commit/${NEW_REV}" >> $GITHUB_STEP_SUMMARY
