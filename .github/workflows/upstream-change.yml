@@ -40,15 +40,18 @@ jobs:
       run: |
         NEW_REV=$(cat current-revision)
         [ "${cache_hit}" = "true" ] && OLD_REV=$(cat last-revision || true)
+        echo $NEW_REV
+        echo $OLD_REV
+        echo ${cache_hit}
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "🆕 Discourse branch ${branch} revision changed" >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
+          echo "Latest commit: https://github.com/discourse/discourse/commit/${NEW_REV}" >> $GITHUB_STEP_SUMMARY
+          echo >> $GITHUB_STEP_SUMMARY
           if [ "${cache_hit}" = "true" ]; then
             echo "Changes: https://github.com/discourse/discourse/compare/${OLD_REV}...${NEW_REV}" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "Latest commit: https://github.com/discourse/discourse/commit/${NEW_REV}" >> $GITHUB_STEP_SUMMARY
+            echo >> $GITHUB_STEP_SUMMARY
           fi
-          echo >> $GITHUB_STEP_SUMMARY
           echo "Triggering workflow: ${workflow}" >> $GITHUB_STEP_SUMMARY
           
           echo "$NEW_REV" > last-revision
