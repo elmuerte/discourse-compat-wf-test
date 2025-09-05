@@ -41,6 +41,10 @@ jobs:
         NEW_REV=$(cat current-revision)
         # cache_hit is empty on initial; false when an older cache was restored
         [ "${cache_hit}" = "false" ] && OLD_REV=$(cat last-revision || true)
+        ls -l current-revision last-revision
+        echo "NEW_REV=$NEW_REV"
+        echo "OLD_REV=$OLD_REV"
+        echo "cache_hit=$cache_hit"
         if [ "$NEW_REV" != "$OLD_REV" ]; then
           echo "Changes detected"
           echo "🆕 Discourse branch ${branch} revision changed" >> $GITHUB_STEP_SUMMARY
