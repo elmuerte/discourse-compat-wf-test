@@ -39,7 +39,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         NEW_REV=$(cat current-revision)
-        [ "${cache_hit}" != "true" ] && OLD_REV=$(cat last-revision || true)
+        [ "${cache_hit}" = "false" ] && OLD_REV=$(cat last-revision || true)
         echo $NEW_REV
         ls -l current-revision
         echo $OLD_REV
@@ -50,7 +50,7 @@ jobs:
           echo >> $GITHUB_STEP_SUMMARY
           echo "Latest commit: https://github.com/discourse/discourse/commit/${NEW_REV}" >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
-          if [ "${cache_hit}" != "true" ]; then
+          if [ "${cache_hit}" = "false" ]; then
             echo "Changes: https://github.com/discourse/discourse/compare/${OLD_REV}...${NEW_REV}" >> $GITHUB_STEP_SUMMARY
             echo >> $GITHUB_STEP_SUMMARY
           fi
