@@ -40,7 +40,7 @@ jobs:
       run: |
         NEW_REV=$(cat current-revision)
         # cache_hit is empty on initial; false when an older cache was restored
-        [ "${cache_hit}" = "false" ] && OLD_REV=$(cat last-revision || true)
+        [ -n "${cache_hit}" ] && OLD_REV=$(cat last-revision || true)
         ls -l current-revision last-revision
         echo "NEW_REV=$NEW_REV"
         echo "OLD_REV=$OLD_REV"
@@ -51,7 +51,7 @@ jobs:
           echo >> $GITHUB_STEP_SUMMARY
           echo "Latest commit: https://github.com/discourse/discourse/commit/${NEW_REV}" >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
-          if [ "${cache_hit}" = "false" ]; then
+          if [ -n "${cache_hit}" ]; then
             echo "Changes: https://github.com/discourse/discourse/compare/${OLD_REV}...${NEW_REV}" >> $GITHUB_STEP_SUMMARY
             echo >> $GITHUB_STEP_SUMMARY
           fi
