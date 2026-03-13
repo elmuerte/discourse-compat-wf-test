@@ -6,16 +6,19 @@ on:
   #  - cron: '34 7 * * *'
   workflow_dispatch:
 
+permissions:
+  actions: write
+
 jobs:
   check-updates:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
-          - branch: tests-passed
-            workflow: tests-passed.yml
-          - branch: stable
-            workflow: stable.yml
+          - branch: latest
+            workflow: latest.yml
+          - branch: esr
+            workflow: esr.yml
     steps:
     - id: retrieve-lastrev
       env:
