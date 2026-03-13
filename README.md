@@ -10,6 +10,6 @@ It sort of assumes the plugin/theme component project has been set up to use the
 
 This plugin/theme component's test suite has been run against the following Discourse branches:
 
-[![Discourse stable](https://github.com/elmuerte/wf-test/actions/workflows/stable.yml/badge.svg)](https://github.com/elmuerte/wf-test/actions/workflows/stable.yml)
+[![Discourse stable](https://github.com/elmuerte/wf-test/actions/workflows/esr.yml/badge.svg)](https://github.com/elmuerte/wf-test/actions/workflows/esr.yml)
 
-[![Discourse tests-passed](https://github.com/elmuerte/wf-test/actions/workflows/tests-passed.yml/badge.svg)](https://github.com/elmuerte/wf-test/actions/workflows/tests-passed.yml)
+[![Discourse tests-passed](https://github.com/elmuerte/wf-test/actions/workflows/latest.yml/badge.svg)](https://github.com/elmuerte/wf-test/actions/workflows/latest.yml)
