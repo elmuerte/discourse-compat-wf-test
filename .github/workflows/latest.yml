@@ -1,4 +1,4 @@
-name: Discourse tests-passed
+name: Discourse latest
 on:
   #push:
   #  branches:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo "This would test the plugin/theme against the tests-passed branch"
+        echo "This would test the plugin/theme against the latest branch"
   #ci:
   #  uses: discourse/.github/.github/workflows/discourse-plugin.yml@v1
   #  with:
