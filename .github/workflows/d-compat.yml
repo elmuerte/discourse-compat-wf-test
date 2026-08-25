@@ -7,6 +7,8 @@ on:
     branches:
       - d-compat/**
   workflow_dispatch:
+    branches:
+      - d-compat/**
 
 jobs:
   discourse-branch:
