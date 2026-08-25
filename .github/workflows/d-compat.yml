@@ -1,0 +1,30 @@
+name: Discourse latest
+on:
+  push:
+    branches:
+      - d-compat/**
+  pull_request:
+    branches:
+      - d-compat/**
+  workflow_dispatch:
+
+jobs:
+  release-branch:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{steps.determine.outputs.branch}}
+    steps:
+    - id: determine
+      run: |
+        echo "GITHUB_BASE_REF = $GITHUB_BASE_REF"
+        echo "GITHUB_REF = $GITHUB_REF"
+        _REF=${GITHUB_BASE_REF:-$GITHUB_REF}
+        echo "_REF = $_REF"
+        DISCOURSE_RELEASE=release/${_REF#*/d-compat/}
+        echo "DISCOURSE_RELEASE = $DISCOURSE_RELEASE"
+        echo "branch=$DISCOURSE_RELEASE" >> "$GITHUB_OUTPUT"
+  ci:
+    needs: release-branch
+    uses: discourse/.github/.github/workflows/discourse-plugin.yml@v1
+    with:
+      core_ref: ${{needs.release-branch.outputs.branch}}
