@@ -16,9 +16,10 @@ jobs:
     steps:
     - id: determine
       run: |
+        echo "Determine target Discourse branch to use..."
         USE_REF=${GITHUB_BASE_REF:-$GITHUB_REF}
         DISCOURSE_BRANCH=release/${USE_REF#*/d-compat/}
-        echo "Use discourse branch: $DISCOURSE_BRANCH"
+        echo "Use Discourse branch: $DISCOURSE_BRANCH" >> $GITHUB_STEP_SUMMARY
         echo "branch=$DISCOURSE_BRANCH" >> "$GITHUB_OUTPUT"
   ci:
     needs: discourse-branch
